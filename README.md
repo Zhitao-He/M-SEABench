@@ -11,6 +11,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/arXiv-Coming%20Soon-B31B1B.svg?logo=arxiv&amp;logoColor=white" alt="arXiv (coming soon)">
+  <a href="Multimodel_SEA_paper.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B.svg?style=flat" alt="Paper (PDF)" height="20"></a>
 </p>
 </div>
 
