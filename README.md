@@ -10,7 +10,7 @@
 <sup>1</sup>MMSense Lab, Hong Kong University of Science and Technology
 
 <p align="center">
-  <img src="https://img.shields.io/badge/arXiv-Coming%20Soon-B31B1B.svg?logo=arxiv&amp;logoColor=white" alt="arXiv (coming soon)">
+  <a href="https://arxiv.org/abs/2611.08281"><img src="https://img.shields.io/badge/arXiv-2611.08281-B31B1B.svg?style=flat&amp;logo=arxiv&amp;logoColor=white" alt="arXiv:2611.08281" height="20"></a>
   <a href="Multimodal_SEA_paper.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B.svg?style=flat" alt="Paper (PDF)" height="20"></a>
 </p>
 </div>
@@ -63,4 +63,14 @@ data/
 
 ## Citation
 
-Citation information will be added when the paper is released.
+```bibtex
+@misc{he2026multimodalseabenchmarkingaiagent,
+      title={Multimodal-SEA: Benchmarking AI Agent Security under Multimodal Social Engineering Attacks},
+      author={Zhitao He and Chi Him Zhang and Chengru Han and Yi R Fung},
+      year={2026},
+      eprint={2611.08281},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2611.08281},
+}
+```
