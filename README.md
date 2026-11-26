@@ -87,7 +87,7 @@ The paper evaluates seven multimodal defender models: Claude Opus 5, Gemini 3.8 
 
 <h3 align="center">Main Results (Chinese and English task sets)</h3>
 <p align="center">
-  <a href="asset/msea_main_results.png"><img src="asset/msea_main_results.png" width="800" alt="Main results"/></a>
+  <a href="asset/msea_main_results.png"><img src="asset/msea_main_results.png" width="650" alt="Main results"/></a>
 </p>
 
 **Metrics:** D1 = average monetary loss per task (RMB for Chinese tasks; USD for English tasks); D2 = verification coverage; D3 = average first attack recognition round; D4 = attack success rate; D5 = ungrounded action claims; D6 = multimodal deception miss rate.
