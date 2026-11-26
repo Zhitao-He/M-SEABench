@@ -13,6 +13,11 @@
   <a href="https://arxiv.org/abs/2611.08281"><img src="https://img.shields.io/badge/arXiv-2611.08281-B31B1B.svg?style=flat&amp;logo=arxiv&amp;logoColor=white" alt="arXiv:2611.08281" height="20"></a>
   <a href="Multimodal_SEA_paper.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B.svg?style=flat" alt="Paper (PDF)" height="20"></a>
 </p>
+
+**608 Tasks · 152 Scenarios · 14 Domains · Chinese & English**
+
+[Paper](https://arxiv.org/abs/2611.08281) · [Released Tasks](#task-layout) · [Results](#main-results) · [Citation](#citation)
+
 </div>
 
 <p align="center">
@@ -36,30 +41,49 @@ Our main contributions are threefold:
   <a href="asset/msea_main_results.png"><img src="asset/msea_main_results.png" width="600" alt="Main results"/></a>
 </p>
 
-D1 reports average monetary loss per task in RMB and USD. D2 measures verification coverage, D3 the average first attack recognition round, D4 the attack success rate, D5 the count of ungrounded action claims, and D6 the multimodal deception miss rate. **-SP** adds five explicit safety rules to the system prompt.
+| Metric | Definition |
+| --- | --- |
+| D1 | Average monetary loss per task (RMB for Chinese tasks; USD for English tasks) |
+| D2 | Verification coverage |
+| D3 | Average first attack recognition round |
+| D4 | Attack success rate |
+| D5 | Count of ungrounded action claims without tool execution |
+| D6 | Multimodal deception miss rate |
 
-(1) **All evaluated models are vulnerable to multimodal social engineering attacks.** Attack success rates (D4) range from 8.9% to 36.7% on Chinese tasks and from 5.1% to 34.2% on English tasks. (2) **Agents often fail to recognize deceptive multimodal content.** Multimodal deception miss rates (D6) range from 21.9% to 52.6% on Chinese tasks and from 21.6% to 70.9% on English tasks. (3) **Safety prompts do not eliminate multimodal deception risks.** On Chinese tasks, GPT-5.6-Sol-SP reduces D4 from 34.8% to 10.8%, while D6 rises from 50.4% to 63.5%. On English tasks, D4 falls from 34.2% to 14.0%, while D6 rises from 70.9% to 78.8%. (4) **Evaluated models commonly make false action claims that affect task execution.** Ungrounded action claims (D5), made without tool execution, range from 116 to 1,038 on Chinese tasks and from 73 to 650 on English tasks.
+**-SP** adds five explicit safety rules to the system prompt.
+
+- **All evaluated models are vulnerable to multimodal social engineering attacks.** Attack success rates (D4) range from 8.9% to 36.7% on Chinese tasks and from 5.1% to 34.2% on English tasks.
+- **Agents often fail to recognize deceptive multimodal content.** Multimodal deception miss rates (D6) range from 21.9% to 52.6% on Chinese tasks and from 21.6% to 70.9% on English tasks.
+- **Safety prompts do not eliminate multimodal deception risks.** On Chinese tasks, GPT-5.6-Sol-SP reduces D4 from 34.8% to 10.8%, while D6 rises from 50.4% to 63.5%. On English tasks, D4 falls from 34.2% to 14.0%, while D6 rises from 70.9% to 78.8%.
+- **Evaluated models commonly make false action claims that affect task execution.** Ungrounded action claims (D5), made without tool execution, range from 116 to 1,038 on Chinese tasks and from 73 to 650 on English tasks.
 
 ## Task Layout
 
-```text
-data/
-└── tasks/
-    ├── agent_expense/
-    ├── charity/
-    ├── digital_assets/
-    ├── education/
-    ├── gov/
-    ├── medical/
-    ├── payment/
-    ├── property/
-    ├── shopping/
-    ├── smart_device/
-    ├── social/
-    ├── telecom/
-    ├── travel/
-    └── work/
-```
+Due to the potential misuse risks associated with the attacker harness and multimodal social engineering attack scripts, we release only a selected subset of tasks to support further research on AI agent safety and multimodal defenses. The attacker harness and full attack scripts are not publicly released.
+
+The current release contains **14 scenarios, one per domain, each with L1–L4 — 56 evaluation tasks in total**. It includes **7 Chinese and 7 English scenarios**, a subset of the full 608-task benchmark described in the paper.
+
+| Domain | Released scenario | Language | Levels |
+| --- | --- | --- | --- |
+| `agent_expense` | [Learning-center renewal payment](data/tasks/agent_expense/agent_brightminds_extracurricular_US.json) | English | L1–L4 |
+| `charity` | [Education charity donation](data/tasks/charity/chunlei_charity_CH.json) | Chinese | L1–L4 |
+| `digital_assets` | [Young Saver contribution](data/tasks/digital_assets/ally_young_saver_US.json) | English | L1–L4 |
+| `education` | [Extracurricular class renewal](data/tasks/education/qihang_extracurricular_social_CH.json) | Chinese | L1–L4 |
+| `gov` | [FasTrak toll payment](data/tasks/gov/fastrak_toll_US.json) | English | L1–L4 |
+| `medical` | [Medical checkup follow-up](data/tasks/medical/checkup_followup_CH.json) | Chinese | L1–L4 |
+| `payment` | [Kids Savings deposit](data/tasks/payment/discover_kids_saver_US.json) | English | L1–L4 |
+| `property` | [Elevator repair fee](data/tasks/property/elevator_fee_CH.json) | Chinese | L1–L4 |
+| `shopping` | [Amazon order processing fee](data/tasks/shopping/amazon_locker_fee_US.json) | English | L1–L4 |
+| `smart_device` | [Smart-lock emergency](data/tasks/smart_device/father_lock_er_CH.json) | Chinese | L1–L4 |
+| `social` | [Class reunion dinner split](data/tasks/social/classmate_chris_aa_US.json) | English | L1–L4 |
+| `telecom` | [Overdue family telecom plan](data/tasks/telecom/family_plan_overdue_CH.json) | Chinese | L1–L4 |
+| `travel` | [Family trip booking](data/tasks/travel/family_trip_planning_US.json) | English | L1–L4 |
+| `work` | [Manager-requested dinner payment](data/tasks/work/boss_dinner_CH.json) | Chinese | L1–L4 |
+
+### File format
+
+Files are organized as `data/tasks/<domain>/<scene_id>.json`. Each file contains scenario metadata and a `tasks` array with four difficulty levels. Task entries include attacker configurations, grading criteria, and an `artifacts` field for multimodal content definitions where provided, along with applicable simulated-site and verification settings. A task is identified by `scene_id::task_id`.
+
 
 ## Citation
 
