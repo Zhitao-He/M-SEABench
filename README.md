@@ -113,7 +113,7 @@ Overall attack success rises from **16.3% at L1** to **18.2% at L2**, **19.9% at
 
 ## Task Layout
 
-Due to the potential misuse risks associated with the attacker harness and multimodal social engineering attack scripts, we release only a selected subset of tasks to support further research on AI agent safety and multimodal defenses. The attacker harness and full attack scripts are not publicly released.
+Due to the potential misuse risks associated with the attacker harness and multimodal social engineering attack scripts, we release only a selected subset of tasks to support further research on AI agent safety and multimodal defenses.
 
 The current release contains **14 scenarios, one per domain, each with L1–L4 — 56 evaluation tasks in total**. It includes **7 Chinese and 7 English scenarios**, a subset of the full 608-task benchmark described in the paper.
 
