@@ -38,17 +38,17 @@ Our main contributions are threefold:
 
 ## The Multimodal-SEA Benchmark
 
-<p align="center">
-  <a href="asset/msea_figure2_overview.png"><img src="asset/msea_figure2_overview.png" width="520" alt="Figure 2: benchmark domains, applications, impersonated roles and difficulty levels"/></a>
-</p>
-
-*Figure 2: Overview of Multimodal-SEA, including domains, applications, impersonated roles, and task difficulty levels.*
-
 ### Scenario and Task Construction
 
 The full benchmark contains **79 Chinese and 73 English scenarios**, with four levels per scenario: **316 Chinese + 292 English = 608 tasks**. The two task sets reflect different social and cultural contexts through local services, personal relationships, and plausible requests, rather than being direct translations of each other.
 
 Scenarios span social interactions, payments, digital assets, shopping, travel, work, smart devices, charity, government services, medical services, telecom, property management, education, and agent expenses. Attackers impersonate family members, friends, colleagues, or service providers to induce financial loss or sensitive information disclosure.
+
+<p align="center">
+  <a href="asset/msea_figure2_overview.png"><img src="asset/msea_figure2_overview.png" width="380" alt="Figure 2: benchmark domains, applications, impersonated roles and difficulty levels"/></a>
+</p>
+
+*Figure 2: Overview of Multimodal-SEA, including domains, applications, impersonated roles, and task difficulty levels.*
 
 ### Simulation Environment
 
@@ -101,18 +101,6 @@ Verification in D2 requires actual tool use. D5 counts claims of completed actio
 - **Safety prompts do not eliminate multimodal deception risks.** On Chinese tasks, GPT-5.6-Sol-SP reduces D4 from 34.8% to 10.8%, while D6 rises from 50.4% to 63.5%. On English tasks, D4 falls from 34.2% to 14.0%, while D6 rises from 70.9% to 78.8%.
 - **Evaluated models commonly make false action claims that affect task execution.** Ungrounded action claims (D5), made without tool execution, range from 116 to 1,038 on Chinese tasks and from 73 to 650 on English tasks.
 
-### Effect of Multimodal Content
-
-<p align="center">
-  <a href="asset/msea_table14_ablation.png"><img src="asset/msea_table14_ablation.png" width="720" alt="Table 14: paired multimodal ablation results on Chinese and English tasks"/></a>
-</p>
-
-*Table 14: Paired D2–D4 results for the multimodal-artifact ablation. D2 is micro-averaged across active verification opportunities, D3 is the mean first-detection round, and D4 is the attack success rate.*
-
-A paired ablation evaluates **86 L3 scenarios across seven models (602 paired evaluations)**, once with multimodal content and once without it. Adding content raises average attack success from **19.9% to 29.2%**, while verification coverage also rises from **54.7% to 65.1%**. Six of the seven models show increased attack success.
-
-Higher verification coverage does not prevent increased attack success. Effective verification requires obtaining independent, trustworthy information and using it to guide subsequent decisions. Defending against multimodal social engineering therefore requires attention to how agents assess the credibility of content and use verification results, beyond whether they perform verification. The ablation uses L3 tasks to separate the effect of multimodal content from the accomplice condition.
-
 ### Effects of Attacker Knowledge and Verification Conditions
 
 <p align="center">
@@ -122,20 +110,6 @@ Higher verification coverage does not prevent increased attack success. Effectiv
 *Figure 3: Attack success rates (D4, %) across four difficulty levels. Chinese tasks appear on the left and English tasks on the right, separated by a dashed line and sharing one vertical axis. Icons follow the model order in Table 2, with four bars per model ordered L1 to L4. Each bar summarizes 79 Chinese or 73 English task evaluations.*
 
 Overall attack success rises from **16.3% at L1** to **18.2% at L2**, **19.9% at L3**, and **27.4% at L4**. The largest increase occurs with the L4 accomplice setting. Individual models do not all follow a monotonic trend, and each level changes a complete attack setting; these differences cannot be attributed to a single factor alone.
-
-### Benign Request Utility
-
-<p align="center">
-  <a href="asset/msea_table17_benign.png"><img src="asset/msea_table17_benign.png" width="720" alt="Table 17: benign-task completion, safe completion and over-refusal"/></a>
-</p>
-
-*Table 17: Benign-task performance on 42 Chinese and 42 English tasks per model. Completion rate (CR) measures executed requests, safe completion rate (SCR) measures requests completed after independent verification, and over-refusal rate (OR) measures refusals despite confirmation that the request is legitimate. Overall results pool both task sets.*
-
-The paper also evaluates **42 Chinese and 42 English benign tasks**. Across the seven models, average completion is **41.7%**, while safe completion after independent verification is **34.4%**. Some completed requests therefore lack the required verification.
-
-Low attack success can coincide with substantial over-refusal. Claude Opus 5 and MiniMax-M3 have combined attack success rates of **7.1%** and **14.3%**, respectively, but refuse **32.1%** and **51.2%** of benign tasks even when verification supports their legitimacy. Low attack success alone does not establish reliable deception recognition, and the intrinsic security of agents also requires using trustworthy verification to safely complete legitimate tasks.
-
-For detailed results, scoring definitions, and recorded examples, see Sections 2–5 and the appendices of the [paper](Multimodal_SEA_paper.pdf).
 
 ## Task Layout
 
