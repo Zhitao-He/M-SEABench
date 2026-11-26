@@ -16,13 +16,9 @@
 
 **608 Tasks · 152 Scenarios · 14 Domains · Chinese & English**
 
-[Paper](https://arxiv.org/abs/2611.08281) · [Benchmark](#benchmark-design) · [Attack Harness](#multimodal-attack-harness) · [Results](#main-results) · [Released Tasks](#task-layout) · [Citation](#citation)
+[Paper](https://arxiv.org/abs/2611.08281) · [Benchmark](#the-multimodal-sea-benchmark) · [Attack Harness](#multimodal-attack-harness) · [Results](#main-results) · [Released Tasks](#task-layout) · [Citation](#citation)
 
 </div>
-
-<p align="center">
-  <a href="asset/msea_figure1.png"><img src="asset/msea_figure1.png" width="680" alt="Figure 1: Multimodal social engineering attack and attack harness"/></a>
-</p>
 
 ## Introduction
 
@@ -34,42 +30,56 @@ Our main contributions are threefold:
 - **Multimodal Attack Harness.** A harness for controlled red teaming integrates task information, attack progression control, and multimodal content construction to evaluate responses to multimodal deception.
 - **Systematic Evaluation and Analysis.** We evaluate seven multimodal models across six dimensions covering attack outcomes and verification behavior. Content ablation, prompt-based defense, and benign task evaluation reveal how multimodal content strengthens deception and the limits of agents’ intrinsic security.
 
-## Benchmark Design
+<p align="center">
+  <a href="asset/msea_figure1.png"><img src="asset/msea_figure1.png" width="680" alt="Figure 1: Multimodal social engineering attack and attack harness"/></a>
+</p>
 
-### Scenarios and simulated environment
+*Figure 1: An illustrative multimodal social engineering attack (left) and the attack harness (right), which supports attack progression and the use of prepared or dynamically constructed content.*
+
+## The Multimodal-SEA Benchmark
+
+<p align="center">
+  <a href="asset/msea_figure2_overview.png"><img src="asset/msea_figure2_overview.png" width="520" alt="Figure 2: benchmark domains, applications, impersonated roles and difficulty levels"/></a>
+</p>
+
+*Figure 2: Overview of Multimodal-SEA, including domains, applications, impersonated roles, and task difficulty levels.*
+
+### Scenario and Task Construction
 
 The full benchmark contains **79 Chinese and 73 English scenarios**, with four levels per scenario: **316 Chinese + 292 English = 608 tasks**. The two task sets reflect different social and cultural contexts through local services, personal relationships, and plausible requests, rather than being direct translations of each other.
 
 Scenarios span social interactions, payments, digital assets, shopping, travel, work, smart devices, charity, government services, medical services, telecom, property management, education, and agent expenses. Attackers impersonate family members, friends, colleagues, or service providers to induce financial loss or sensitive information disclosure.
 
-The benchmark environment described in the paper provides **50 simulated applications**, alongside contacts, files, browsing, and search. Applications share user profiles and historical records, including relationships, transactions, medical records, photos, and documents. This gives defenders context they can use to assess requests and independently verify claims. Attacks can target both user funds and funds managed by the agent.
+### Simulation Environment
 
-### Four difficulty levels
+Multimodal-SEA provides **50 simulated applications** covering social interactions, payments, shopping, work, and travel, with common tools for contacts, file management, browsing, and search. Applications share a user profile containing relationships, account details, transaction history, and medical records. Photo albums and files allow the agent to use family photos to help verify identity or compare received documents with existing files. Attackers can target both user funds and funds managed by the agent.
 
-- **L1 — Limited information.** The attacker has little personal information. Independent verification channels remain available to confirm or refute the story.
+### Difficulty Settings
+
+- **L1 — Limited information.** The attacker has little personal information. Independent verification channels remain available to confirm or refute the attacker's claims.
 - **L2 — Basic context.** The attacker knows basic identity and relationship details, while independent verification remains available.
 - **L3 — Rich context, restricted verification.** The attacker has more detailed information, such as transaction history or medical records, and independent verification is restricted.
 - **L4 — Rich context with accomplices.** Accomplices support the fabricated event, testing whether the defender can resist misleading corroboration.
 
 Attack scripts and supporting content may also vary across levels. Difficulty therefore concerns both the attacker's information and the reliability of the defender's verification channels.
 
-### Multimodal content and interaction
+### Task Formulation and Multimodal Content
 
 The benchmark supports **images, documents, websites, app interfaces, and videos**. These can reinforce the same fabricated identity or event across multiple formats. Websites and app interfaces also allow interactions such as submitting information or confirming a payment.
 
-In the illustrative family-trip scenario above, an attacker impersonates the user's spouse and presents a travel screenshot and brochure, followed by a fake booking application. The defender may see consistent dates, prices, and destinations across the materials, even though they all come from the attacker. The research question is whether the agent distinguishes that consistency from independent evidence before acting.
+In the illustrative family travel scenario in Figure 1, the attacker impersonates the user's spouse and uses a package screenshot and brochure to support a fabricated travel offer. The attacker then asks the agent to confirm payment in a fake application. Each task specifies the available content and its requirements, while the attacker can adjust the dialogue based on the agent's feedback.
 
 The attacker cannot directly modify the defender's system prompt or tamper with the user's existing records. The defender can inspect received content, consult records, contact people, search for information, and accept or reject requests. Dialogue, content deliveries, tool calls, returned observations, and state changes are recorded. **Attack success requires actual financial loss or sensitive information leakage; a verbal claim of payment alone does not count.**
 
 ## Multimodal Attack Harness
 
-The paper introduces a harness for controlled, multi-turn red teaming in the simulated environment. It brings together three components:
+We design a multimodal attack harness to evaluate the intrinsic security of personal agents through controlled, multi-turn social engineering interactions in a simulated environment. The harness integrates task context, attack progression control, and multimodal content construction to support the attacker agent during evaluation:
 
 1. **Task context:** the impersonated identity, objectives, permitted user information, multi-stage script, and available content.
 2. **Interaction state and progression:** dialogue history and defender responses guide the transition from initial contact to concrete requests, including adjustments after refusals.
 3. **Content selection and construction:** the attacker can select prepared materials or, where the task permits, request new task-specific content during the interaction.
 
-Prepared content is reviewed and finalized before evaluation. Dynamic construction uses task context and existing materials to maintain consistency across names, dates, amounts, and other details. The defender's responses inform subsequent interaction, while the recorded trajectory supports evaluation of both harmful actions and verification behavior. This section summarizes the research design; the public release scope is described under [Task Layout](#task-layout).
+Prepared content is reviewed and finalized before evaluation. Dynamic construction uses task context and existing materials to maintain consistency across names, dates, amounts, and other details. The defender's responses inform subsequent interaction, while the recorded trajectory supports evaluation of both harmful actions and verification behavior. The public release scope is described under [Task Layout](#task-layout).
 
 ## Main Results
 
@@ -91,17 +101,39 @@ Verification in D2 requires actual tool use. D5 counts claims of completed actio
 - **Safety prompts do not eliminate multimodal deception risks.** On Chinese tasks, GPT-5.6-Sol-SP reduces D4 from 34.8% to 10.8%, while D6 rises from 50.4% to 63.5%. On English tasks, D4 falls from 34.2% to 14.0%, while D6 rises from 70.9% to 78.8%.
 - **Evaluated models commonly make false action claims that affect task execution.** Ungrounded action claims (D5), made without tool execution, range from 116 to 1,038 on Chinese tasks and from 73 to 650 on English tasks.
 
-### What changes when multimodal content is added?
+### Effect of Multimodal Content
+
+<p align="center">
+  <a href="asset/msea_table14_ablation.png"><img src="asset/msea_table14_ablation.png" width="720" alt="Table 14: paired multimodal ablation results on Chinese and English tasks"/></a>
+</p>
+
+*Table 14: Paired D2–D4 results for the multimodal-artifact ablation. D2 is micro-averaged across active verification opportunities, D3 is the mean first-detection round, and D4 is the attack success rate.*
 
 A paired ablation evaluates **86 L3 scenarios across seven models (602 paired evaluations)**, once with multimodal content and once without it. Adding content raises average attack success from **19.9% to 29.2%**, while verification coverage also rises from **54.7% to 65.1%**. Six of the seven models show increased attack success.
 
-The result highlights a gap between performing verification and obtaining trustworthy evidence. More checks do not necessarily help when the agent relies on attacker-controlled materials or fails to use verification results to reject the request. Because this study uses L3 tasks, it examines the effect of multimodal content separately from the L4 accomplice condition.
+Higher verification coverage does not prevent increased attack success. Effective verification requires obtaining independent, trustworthy information and using it to guide subsequent decisions. Defending against multimodal social engineering therefore requires attention to how agents assess the credibility of content and use verification results, beyond whether they perform verification. The ablation uses L3 tasks to separate the effect of multimodal content from the accomplice condition.
 
-### Can agents still handle legitimate requests?
+### Effects of Attacker Knowledge and Verification Conditions
+
+<p align="center">
+  <a href="asset/msea_figure3_difficulty.png"><img src="asset/msea_figure3_difficulty.png" width="780" alt="Figure 3: attack success rates across L1 to L4 for Chinese and English tasks"/></a>
+</p>
+
+*Figure 3: Attack success rates (D4, %) across four difficulty levels. Chinese tasks appear on the left and English tasks on the right, separated by a dashed line and sharing one vertical axis. Icons follow the model order in Table 2, with four bars per model ordered L1 to L4. Each bar summarizes 79 Chinese or 73 English task evaluations.*
+
+Overall attack success rises from **16.3% at L1** to **18.2% at L2**, **19.9% at L3**, and **27.4% at L4**. The largest increase occurs with the L4 accomplice setting. Individual models do not all follow a monotonic trend, and each level changes a complete attack setting; these differences cannot be attributed to a single factor alone.
+
+### Benign Request Utility
+
+<p align="center">
+  <a href="asset/msea_table17_benign.png"><img src="asset/msea_table17_benign.png" width="720" alt="Table 17: benign-task completion, safe completion and over-refusal"/></a>
+</p>
+
+*Table 17: Benign-task performance on 42 Chinese and 42 English tasks per model. Completion rate (CR) measures executed requests, safe completion rate (SCR) measures requests completed after independent verification, and over-refusal rate (OR) measures refusals despite confirmation that the request is legitimate. Overall results pool both task sets.*
 
 The paper also evaluates **42 Chinese and 42 English benign tasks**. Across the seven models, average completion is **41.7%**, while safe completion after independent verification is **34.4%**. Some completed requests therefore lack the required verification.
 
-Low attack success can also accompany excessive refusal. Claude Opus 5 and MiniMax-M3 have combined attack success rates of **7.1%** and **14.3%**, respectively, but refuse **32.1%** and **51.2%** of benign tasks even when verification supports their legitimacy. Reliable agent safety requires both resisting deceptive requests and completing legitimate ones using trustworthy evidence.
+Low attack success can coincide with substantial over-refusal. Claude Opus 5 and MiniMax-M3 have combined attack success rates of **7.1%** and **14.3%**, respectively, but refuse **32.1%** and **51.2%** of benign tasks even when verification supports their legitimacy. Low attack success alone does not establish reliable deception recognition, and the intrinsic security of agents also requires using trustworthy verification to safely complete legitimate tasks.
 
 For detailed results, scoring definitions, and recorded examples, see Sections 2–5 and the appendices of the [paper](Multimodal_SEA_paper.pdf).
 
@@ -128,7 +160,7 @@ The current release contains **14 scenarios, one per domain, each with L1–L4 �
 | `travel` | [Family trip booking](data/tasks/travel/family_trip_planning_US.json) | English | L1–L4 |
 | `work` | [Manager-requested dinner payment](data/tasks/work/boss_dinner_CH.json) | Chinese | L1–L4 |
 
-### File format
+### File Format
 
 Files are organized as `data/tasks/<domain>/<scene_id>.json`. Each file contains scenario metadata and a `tasks` array with four difficulty levels. Task entries include attacker configurations, grading criteria, and an `artifacts` field for multimodal content definitions where provided, along with applicable simulated-site and verification settings. A task is identified by `scene_id::task_id`.
 
